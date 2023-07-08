@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-
 export const OPENAI_URL = "api.openai.com";
 const DEFAULT_PROTOCOL = "https";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 const DISABLE_GPT4 = !!process.env.DISABLE_GPT4;
+
+function getIP(req: NextRequest) {
+  let ip = req.ip ?? req.headers.get("x-real-ip");
+  const forwardedFor = req.headers.get("x-forwarded-for");
+
+  if (!ip && forwardedFor) {
+    ip = forwardedFor.split(",").at(0) ?? "";
+  }
+
+  return ip;
+}
 
 export async function requestOpenai(req: NextRequest) {
   const controller = new AbortController();
@@ -20,12 +30,12 @@ export async function requestOpenai(req: NextRequest) {
     baseUrl = `${PROTOCOL}://${baseUrl}`;
   }
 
-  console.log("[Proxy] ", openaiPath);
-  console.log("[Base Url]", baseUrl);
+  // console.log("[Proxy] ", openaiPath);
+  // console.log("[Base Url]", baseUrl);
 
-  if (process.env.OPENAI_ORG_ID) {
-    console.log("[Org ID]", process.env.OPENAI_ORG_ID);
-  }
+  // if (process.env.OPENAI_ORG_ID) {
+  //   console.log("[Org ID]", process.env.OPENAI_ORG_ID);
+  // }
 
   const timeoutId = setTimeout(() => {
     controller.abort();
@@ -47,6 +57,7 @@ export async function requestOpenai(req: NextRequest) {
     duplex: "half",
     signal: controller.signal,
   };
+  // console.log("--->", req.text());
 
   // #1815 try to refuse gpt4 request
   if (DISABLE_GPT4 && req.body) {
@@ -89,5 +100,26 @@ export async function requestOpenai(req: NextRequest) {
     });
   } finally {
     clearTimeout(timeoutId);
+    // 把body转为字符串并打印在一行里
+    const text = await req.text();
+    // 把text转为json
+    const json = JSON.parse(text);
+    const messages = json["messages"];
+    let str = "";
+    for (let i = 0; i < messages.length; i++) {
+      if (messages[i]["role"] == "user") {
+        str += ">>>> " + messages[i]["content"] + "\n";
+      } else {
+        str += "<<<< " + messages[i]["content"] + "\n";
+      }
+    }
+    console.log(
+      "==========================================ip: " +
+        getIP(req) +
+        "\n" +
+        str +
+        "\n" +
+        "------------------------------------------\n",
+    );
   }
 }

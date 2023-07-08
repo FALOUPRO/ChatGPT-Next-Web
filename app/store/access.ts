@@ -26,7 +26,7 @@ let fetchState = 0; // 0 not fetch, 1 fetching, 2 done
 
 const DEFAULT_OPENAI_URL =
   getClientConfig()?.buildMode === "export" ? DEFAULT_API_HOST : "/api/openai/";
-console.log("[API] default openai url", DEFAULT_OPENAI_URL);
+// console.log("[API] default openai url", DEFAULT_OPENAI_URL);
 
 export const useAccessStore = create<AccessControlStore>()(
   persist(
@@ -72,7 +72,7 @@ export const useAccessStore = create<AccessControlStore>()(
         })
           .then((res) => res.json())
           .then((res: DangerConfig) => {
-            console.log("[Config] got config from server", res);
+            // console.log("[Config] got config from server", res);
             set(() => ({ ...res }));
 
             if ((res as any).botHello) {
@@ -80,7 +80,7 @@ export const useAccessStore = create<AccessControlStore>()(
             }
           })
           .catch(() => {
-            console.error("[Config] failed to fetch config");
+            // console.error("[Config] failed to fetch config");
           })
           .finally(() => {
             fetchState = 2;
