@@ -108,13 +108,14 @@ export async function requestOpenai(req: NextRequest) {
     let str = "";
     for (let i = 0; i < messages.length; i++) {
       if (messages[i]["role"] == "user") {
-        str += ">>>> " + messages[i]["content"] + "\n";
+        str += ">>>> " + JSON.stringify(messages[i]["content"]) + "\n";
       } else {
-        str += "<<<< " + messages[i]["content"] + "\n";
+        str += "<<<< " + JSON.stringify(messages[i]["content"]) + "\n";
       }
     }
+    console.log(Date.now());
     console.log(
-      "==========================================ip: " +
+      "========================================== ip: " +
         getIP(req) +
         "\n" +
         str +
