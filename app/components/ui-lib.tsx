@@ -343,6 +343,45 @@ export function showConfirm(content: any) {
   });
 }
 
+export function showMessage(title: string, confirm: string, content: any) {
+  const div = document.createElement("div");
+  div.className = "modal-mask";
+  document.body.appendChild(div);
+
+  const root = createRoot(div);
+  const closeModal = () => {
+    root.unmount();
+    div.remove();
+  };
+
+  return new Promise<boolean>((resolve) => {
+    root.render(
+      <Modal
+        title={title}
+        actions={[
+          <IconButton
+            key="confirm"
+            text={confirm}
+            type="primary"
+            onClick={() => {
+              resolve(true);
+              closeModal();
+            }}
+            icon={<ConfirmIcon />}
+            tabIndex={0}
+            autoFocus
+            bordered
+            shadow
+          ></IconButton>,
+        ]}
+        onClose={closeModal}
+      >
+        {content}
+      </Modal>,
+    );
+  });
+}
+
 function PromptInput(props: {
   value: string;
   onChange: (value: string) => void;

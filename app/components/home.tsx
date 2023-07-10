@@ -1,5 +1,7 @@
 "use client";
 
+import { showMessage } from "@/app/components/ui-lib";
+
 require("../polyfill");
 
 import { useState, useEffect } from "react";
@@ -15,7 +17,7 @@ import dynamic from "next/dynamic";
 import { Path, SlotID } from "../constant";
 import { ErrorBoundary } from "./error";
 
-import { getLang } from "../locales";
+import Locales, { getLang } from "../locales";
 
 import {
   HashRouter as Router,
@@ -28,6 +30,7 @@ import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
+import { Popout } from "@/app/components/popout";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -171,6 +174,7 @@ export function Home() {
 
   useEffect(() => {
     console.log("[Config] got config from build time", getClientConfig());
+    showMessage("通知", "知道了", Popout()).then(() => {});
   }, []);
 
   if (!useHasHydrated()) {
