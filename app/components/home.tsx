@@ -31,6 +31,7 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
 import { Popout } from "@/app/components/popout";
+import { useAccessStore } from "../store";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -175,6 +176,7 @@ export function Home() {
   useEffect(() => {
     console.log("[Config] got config from build time", getClientConfig());
     showMessage("通知", "知道了", Popout()).then(() => {});
+    useAccessStore.getState().fetch();
   }, []);
 
   if (!useHasHydrated()) {

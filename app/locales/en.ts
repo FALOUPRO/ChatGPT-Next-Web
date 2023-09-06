@@ -20,6 +20,12 @@ const en: LocaleType = {
   },
   Chat: {
     SubTitle: (count: number) => `${count} messages`,
+    EditMessage: {
+      Topic: {
+        Title: "Topic",
+        SubTitle: "Change the current topic",
+      },
+    },
     Actions: {
       ChatList: "Go To Chat List",
       CompressedHistory: "Compressed History Memory Prompt",
@@ -143,8 +149,7 @@ const en: LocaleType = {
     },
     InjectSystemPrompts: {
       Title: "Inject System Prompts",
-      SubTitle:
-        "Forcefully add a simulated ChatGPT system prompt at the beginning of the message list for every request",
+      SubTitle: "Inject a global system prompt for every request",
     },
     InputTemplate: {
       Title: "Input Template",
@@ -344,6 +349,11 @@ const en: LocaleType = {
     Messages: "Messages",
     Topic: "Topic",
     Time: "Time",
+  },
+
+  URLCommand: {
+    Code: "Detected access code from url, confirm to apply? ",
+    Settings: "Detected settings from url, confirm to apply?",
   },
 };
 
