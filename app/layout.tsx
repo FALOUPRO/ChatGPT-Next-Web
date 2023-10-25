@@ -35,7 +35,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest"></link>
         <script
           async
-          src="https://plausible.helywin.com/jbd33mIwiQlbAQ0T"
+          src="https://twikoo.helywin.com/jbd33mIwiQlbAQ0T"
           data-website-id="3a4bab03-65ae-4931-a3b5-78412aa6f43e"
         ></script>
         <script src="/serviceWorkerRegister.js" defer></script>
