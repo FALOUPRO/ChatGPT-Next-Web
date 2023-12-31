@@ -32,6 +32,7 @@ import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
 import { ClientApi } from "../client/api";
 import { useAccessStore } from "../store";
+import { Popout } from "./popout";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
